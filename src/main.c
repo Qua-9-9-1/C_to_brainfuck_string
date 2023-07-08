@@ -6,8 +6,8 @@ void string_method(char *str)
     size_t size = 0;
     FILE* fd;
 
-    if (!str) {
-        printf("ERROR: you have nothing to write !\n");
+    if (!str || str[0] == '\n' || str[0] == '\0') {
+        printf("\033[1;31mERROR: you have nothing to write !\033[0m\n");
         exit(1);
     }
     str[strlen(str)] = '\0';
@@ -30,7 +30,7 @@ void file_method(char *filepath)
     stat(filepath, &st);
     size = st.st_size;
     if (!fd) {
-        printf("Invalid file.\n");
+        printf("\033[1;31mInvalid file.\033[0m\n");
         exit(1);
     }
     buffer = malloc(sizeof(char) * size + 1);
@@ -59,7 +59,7 @@ int main(int ac, char **av)
     if (ac == 2 && av[1][0] == '-' && av[1][1] == 'h')
         help();
     if (ac > 2) {
-        printf("ERROR: no more than one file !\n");
+        printf("\033[1;31mERROR: no more than one file !\033[0m\n");
         return 1;
     }
     if (ac == 2)
@@ -69,6 +69,6 @@ int main(int ac, char **av)
         if (getline(&str, &size, stdin) == -1) exit(1);
         string_method(str);
     }
-    printf("Your file has been created sucessfully.");
+    printf("\033[1;32mYour file has been created sucessfully.\033[0m\n");
     return 0;
 }
